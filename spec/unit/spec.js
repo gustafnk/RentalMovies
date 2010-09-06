@@ -1,22 +1,31 @@
 
-describe 'YourLib'
-  
-  describe '.someMethod()'
+describe 'RentalMovies'
+ 
+  after_each
+    $("#shell").html('')
+  end
+
+  describe '.hideAllIfNotInStore()'
     it 'should do something'
       $("#shell").html($(fixture('Movielist.html')))
-      result = fixture('Butikslager_available.html')
+      console.log(
+        "Original number of rows: " + $("tr.row").length)
+      positiveResult = fixture('Butikslager_available.html')
+      negativeResult = fixture('Butikslager_unavailable.html')
 
-      
-      MovieInfoRepository = function(){
+      var hasMovie = true;
+      MovieInfoRepository = function(){  
         this.getByNr = function() {
-          return result
+          hasMovie = !hasMovie;
+          return hasMovie ? positiveResult : negativeResult 
         }
       }
 
-      var x = new TooBigClass();
-      x.hideAllIfNotInStore();
+      var x = new TooBigClass()
+      x.hideAllIfNotInStore()
 
-      true.should.be true
+      console.log(
+         "Number of available rows: " + $("tr.row").length)
     end
   end
 end
